@@ -6,6 +6,7 @@
   lib,
   libclang,
   libedit,
+  libxml2,
   openssl,
   python310,
   solana-source,
@@ -76,7 +77,12 @@ stdenv.mkDerivation rec {
     libclang.lib
     xz
     python310
-  ] ++ lib.optionals stdenv.isLinux [ openssl udev ];
+  ]
+  ++ lib.optionals stdenv.isLinux [
+    openssl
+    udev
+    (lib.getLib libxml2)
+  ];
 
   installPhase = ''
     platformtools=$out/bin/platform-tools-sdk/sbf/dependencies/platform-tools
@@ -99,7 +105,10 @@ stdenv.mkDerivation rec {
 
   # A bit ugly, but liblldb.so uses libedit.so.2 and nix provides libedit.so
   postFixup = lib.optionals stdenv.isLinux ''
-    patchelf --replace-needed libedit.so.2 libedit.so $out/bin/platform-tools-sdk/sbf/dependencies/platform-tools/llvm/lib/liblldb.so.19.1.7-rust-dev
+    echo ${version} ${releaseSystem}
+    ls $out/bin
+    ls $out/bin/platform-tools-sdk/sbf/dependencies/platform-tools/llvm/lib
+    patchelf --replace-needed libedit.so.2 libedit.so --replace-needed libxml2.so.2 libxml2.so $out/bin/platform-tools-sdk/sbf/dependencies/platform-tools/llvm/lib/liblldb.so.19.1.7-rust-dev
   '';
 
   # We need to preserve metadata in .rlib, which might get stripped on macOS. See https://github.com/NixOS/nixpkgs/issues/218712

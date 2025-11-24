@@ -26,7 +26,7 @@ let
       hash = "sha256-c+UybdZCFL40TNvxn0PHR1ch7VPhhJFDSIScetRpS3o=";
       rust = rust-bin.stable."1.85.0".default;
       rust-nightly = rust-bin.nightly.latest.default;
-      platform-tools = solana-platform-tools.override { version = "1.45"; };
+      platform-tools = solana-platform-tools.override { version = "1.48"; };
       patches = [ ./patches/anchor-cli/0.31.1.patch ];
     };
     "0.31.0" = {
