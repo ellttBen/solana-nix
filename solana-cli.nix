@@ -20,20 +20,20 @@
   solanaPkgs ? [
     "agave-install"
     "agave-install-init"
-    "agave-ledger-tool"
+    # "agave-ledger-tool"
     "agave-validator"
     "agave-watchtower"
     "cargo-build-sbf"
     "cargo-test-sbf"
     "rbpf-cli"
     "solana"
-    "solana-bench-tps"
+    # "solana-bench-tps"
     "solana-faucet"
     "solana-gossip"
     "solana-keygen"
-    "solana-log-analyzer"
-    "solana-net-shaper"
-    "solana-dos"
+    # "solana-log-analyzer"
+    # "solana-net-shaper"
+    # "solana-dos"
     "solana-stake-accounts"
     "solana-test-validator"
     "solana-tokens"
@@ -78,21 +78,20 @@ let
       protobuf
       pkg-config
     ];
-    buildInputs =
-      [
-        openssl
-        rustPlatform.bindgenHook
-        makeWrapper
-      ]
-      ++ lib.optionals stdenv.isLinux [ udev ]
-      ++ lib.optionals stdenv.isDarwin [
-        libcxx
-        IOKit
-        Security
-        AppKit
-        System
-        Libsystem
-      ];
+    buildInputs = [
+      openssl
+      rustPlatform.bindgenHook
+      makeWrapper
+    ]
+    ++ lib.optionals stdenv.isLinux [ udev ]
+    ++ lib.optionals stdenv.isDarwin [
+      libcxx
+      IOKit
+      Security
+      AppKit
+      System
+      Libsystem
+    ];
 
     # https://crane.dev/faq/rebuilds-bindgen.html?highlight=bindgen#i-see-the-bindgen-crate-constantly-rebuilding
     NIX_OUTPATH_USED_AS_RANDOM_SEED = "aaaaaaaaaa";

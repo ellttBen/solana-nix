@@ -1,14 +1,15 @@
 {
   description = "Solana development setup with Nix.";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/050e09e091117c3d7328c7b2b7b577492c43c134";
-    flake-parts.url = "github:hercules-ci/flake-parts/2cccadc7357c0ba201788ae99c4dfa90728ef5e0";
+    nixpkgs.url = "github:nixos/nixpkgs/86681402a45f441099243f59945d1d546f2933eb";
+    flake-parts.url = "github:hercules-ci/flake-parts/f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb";
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
     rust-overlay = {
-      url = "github:oxalica/rust-overlay/ab726555a9a72e6dc80649809147823a813fa95b";
+      url = "github:oxalica/rust-overlay/d0e019d9543f0f1215a3d961fc4dca59aa29c638";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane";
+    nixpkgs-python.url = "github:cachix/nixpkgs-python";
   };
   outputs =
     inputs@{
@@ -41,6 +42,7 @@
           solana-source = pkgs.callPackage ./solana-source.nix { };
           solana-platform-tools = pkgs.callPackage ./solana-platform-tools.nix {
             inherit solana-source;
+            python310 = inputs.nixpkgs-python.packages.${system}."3.10";
           };
           solana-rust = pkgs.callPackage ./solana-rust.nix {
             inherit solana-platform-tools;

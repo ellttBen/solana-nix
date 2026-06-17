@@ -11,7 +11,7 @@
   udev,
   crane,
   writeShellScriptBin,
-  version ? "0.31.1",
+  version ? "1.0.2",
 }:
 let
   pname = "anchor-cli";
@@ -22,6 +22,13 @@ let
   # latest nightly is always preferred when possible, since breakage may occur
   # due to differing dependency versions as well
   versionsDeps = {
+    "1.0.2" = {
+      hash = "sha256-pgX6neQjDK6w2ilR8FyJb5pKm5G11Uj2oCmuBL9CFjM=";
+      rust = rust-bin.stable."1.88.0".default;
+      rust-nightly = rust-bin.nightly.latest.default;
+      platform-tools = solana-platform-tools.override { version = "1.52"; };
+      patches = [ ./patches/anchor-cli/1.0.2.patch ];
+    };
     "0.31.1" = {
       hash = "sha256-c+UybdZCFL40TNvxn0PHR1ch7VPhhJFDSIScetRpS3o=";
       rust = rust-bin.stable."1.85.0".default;
